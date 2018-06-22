@@ -1,0 +1,30 @@
+@import "./weui.wxss";
+
+.container {
+  height: 100%;
+  width: 100%;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hide {
+  display: none;
+}
+
+page {
+  background: #f5f5f5;
+  box-sizing: border-box;
+  font: 12px "Microsoft YaHei", 微软雅黑, 宋体, Arial, Helvetica, sans-serif;
+}

@@ -1,0 +1,5 @@
+<!--pages/pay/index.wxml-->
+<view class="container">
+    <input type="text" bindinput="getOrderCode" style="border:1px solid #ccc;"  />
+    <button bindtap="pay">ceshi</button>
+</view>

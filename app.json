@@ -1,0 +1,61 @@
+{
+  "pages": [
+    
+    "pages/index/index",
+    "pages/login/login",
+    "pages/mine/mine",
+    "pages/newAddre/newAddre",
+    "pages/sort/sort",
+    "pages/my/index",
+    "pages/pay/index",
+    "pages/goodsList/goodsList",
+    "pages/shopping/shopping",
+    "pages/cleanOrder/cleanOrder",
+    "pages/chooseAddre/chooseAddre",
+   
+    "pages/modifyAddre/modifyAddre",
+    "pages/logs/logs",
+    "pages/ordertotal/ordertotal",
+    "pages/goodsDetail/goodsDetail",
+    "pages/paycomplete/paycomplete"
+    
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#0eb6ff",
+    "navigationBarTitleText": "智慧云菜场",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#a1a1a1",
+    "selectedColor": "#2af8ff",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "#e0e0e0",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "./assets/icons/hema.png",
+        "selectedIconPath": "./assets/icons/hema-sel.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/sort/sort",
+        "iconPath": "./assets/icons/sort.png",
+        "selectedIconPath": "./assets/icons/sort-sel.png",
+        "text": "分类"
+      },
+      {
+        "pagePath": "pages/shopping/shopping",
+        "iconPath": "./assets/icons/shopping.png",
+        "selectedIconPath": "./assets/icons/shopping-sel.png",
+        "text": "购物车"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "iconPath": "./assets/icons/mine.png",
+        "selectedIconPath": "./assets/icons/mine-sel.png",
+        "text": "我的"
+      }
+    ]
+  }
+}
