@@ -62,12 +62,12 @@ Page({
     }, (err, res) => {
       //console.log("list:"+res.data)
       if (true) {
-        if (res.data.length==0) {   //无数据
+        if (res.data.data.orderList.length==0) {   //无数据
           that.setData({ hidden: true, tips: "没有数据~" })
         } else {
           that.setData({
             hidden: true,
-            list: that.data.list.concat(res.data.data),
+            list: that.data.list.concat(res.data.data.orderList),
           })
           //处理数据
           var list = that.data.list;
@@ -95,7 +95,7 @@ Page({
               that.data.newlist.push({
                 button: "查看详情",
                 state: "其他状态",
-                orderTotalPrice: 1244,//item.orderTotalPrice, //总价
+                orderTotalPrice: item.orderTotalPrice, //总价
                 goodsImage: "../../assets/images/p1.jpg",// item.orderGoodsList[0].goodsImage,//图片地址
                 goodsName: "性感美胸尤物嘉嘉大胆妩媚巨乳人体艺术写真",//item.orderGoodsList[0].goodsName,  //商品介绍介绍
                 goodsNum: "1000",//item.orderGoodsList[0].goodsNum  //商品数量

@@ -19,7 +19,11 @@ Page({
         value: ' 短信'
       }
     ],
-    comment: ""
+    comment: "",  
+    productTotal:"",
+    logisticsFee: "",
+    orderTotal: "",
+    order:null
   },
 
   onLoad: function(options) {
@@ -42,8 +46,8 @@ Page({
         addre: options.addre
       })
     }
-
-
+    this.searchAddress();
+    this.placeOrder();
   },
 
   toChooseAddre: function() {
@@ -118,7 +122,7 @@ Page({
         //  title: '提示',
         // content: "超过180平米，请拨打电话400-8116-010联系客服为您服务"
         //})
-        return false;
+        //return false;
       }
       if (e.detail.value.marks.length == 1) {
         if (e.detail.value.marks == "window") {
@@ -132,12 +136,16 @@ Page({
       }
       flag = false; //若必要信息都填写，则不用弹框，且页面可以进行跳转
       var that = this;
+      /** 
       wx.navigateTo({
         url: '../confirm/confirm?tel=' + that.data.tel + "&addre=" + that.data.addre + "&door=" + that.data.door + "&date=" + e.detail.value.date + "&time=" + e.detail.value.time + "&personNum=" + personNum + "&timeNum=" + timeNum + "&window=" + window + "&machine=" + machine
         //？后面跟的是需要传递到下一个页面的参数
       });
+       */
       console.log('form发生了submit事件，携带数据为：', e.detail.value);
-
+     
+      //调用数据生成订单
+      that.addOrder(e);
     }
     //如果信息填写不完整，弹出输入框
     if (flag == true) {
@@ -210,7 +218,7 @@ Page({
         // fail     
         wx.showModal({
           title: '提示',
-         content: "支付失败"
+          content: "支付失败"
         })
         console.log("支付失败:" + param.data.package)
         console.log(error)
@@ -221,4 +229,94 @@ Page({
       }
     });
   },
+
+  //查询收货地址
+  searchAddress: function() {
+    var userId = 1;
+    var that = this;
+    wx.request({
+      url: 'http://www.binzhoushi.xyz/zhy/address/list?userId=' + userId,
+      header: {
+        'Content-Type': 'application/json'
+      },
+      method: "GET",
+      data: {},
+      success: function(res) {
+        console.log("query address success:" + JSON.stringify(res));
+        if (res.data.data.isDefaultAddress == null) {
+          that.setData({
+            display1: "none",
+            display2: "flex",
+            name: res.data.data[0].name,
+            tel: res.data.data[0].tel,
+            addre: res.data.data[0].addre
+          })
+        }
+      },
+      fail: function(res) {
+        console.log("query address fail:" + JSON.stringify(res))
+      }
+    })
+  },
+
+  //查询购物车
+  placeOrder: function () {
+    var userId = 1;
+    var that = this;
+    wx.request({
+      url: 'http://www.binzhoushi.xyz/zhy/order/placeOrder?userId=' + userId,
+      header: {
+        'Content-Type': 'application/json'
+      },
+      method: "GET",
+      data: {},
+      success: function (res) {
+        //console.log("search cart success:" + JSON.stringify(res));
+        // 页面加载时就给购物车显示商品数量
+        
+      that.setData({
+        order: res.data.data.order,
+        productTotal: res.data.data.order.productAmountTotal,
+        orderTotal: res.data.data.order.orderAmountTotal,
+        logisticsFee: res.data.data.order.logisticsFee
+      })
+      },
+      fail: function (res) {
+        console.log("search cart fail:" + JSON.stringify(res))
+      }
+    })
+  },
+
+  //添加订单
+  addOrder: function(e) {
+    var requestData = {
+      'userId': 1,
+      'orderNo': 1,
+      'shopId': 1,
+      'orderStatus': 1,
+      'productAmountTotal': this.data.order.productAmountTotal,
+      'orderAmountTotal': this.data.order.orderAmountTotal,
+      'logisticsFee': this.data.order.logisticsFee,
+      'addressId': 1,
+      'orderlogisticsId': 1,
+      'payChannel': 1
+    };
+    wx.request({
+      url: 'http://www.binzhoushi.xyz/zhy/order/saveSelective',
+      header: {
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      data: requestData,
+      success: function(res) {
+        console.log("add order success:" + JSON.stringify(res))
+      },
+      fail: function(res) {
+        console.log("add order fail:" + JSON.stringify(res))
+      },
+      complete: function(res) {},
+    })
+  },
+
+
 })

@@ -4,22 +4,27 @@
     <swiper class="detail_swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
       <block>
         <swiper-item>
-          <image src="../../assets/images/p1.jpg" mode="scaleToFill"></image>
+          <image src="{{detailData.image}}" mode="scaleToFill"></image>
         </swiper-item>
       </block>
     </swiper>
-    <view class="detail_title">{{detailData[0].goodsName}}</view>
-    <view class="detail_price">￥{{detailData[0].commentnum}}</view>
+    <view class="detail_title">{{detailData.name}}</view>
+    <view class="detail_price">￥{{detailData.price}}</view>
     <view class="detail_spec">已选
-      <block wx:for="{{detailData[0].goodsSpec.specGoodsSpec}}">{{item}}　</block>
+      <block wx:for="{{detailData.goodsSpec.specGoodsSpec}}">{{item}}　</block>
     </view>
 
     <!--这里data中article为bindName-->
     <template is="wxParse" data="{{wxParseData:goodsDetail.nodes}}" />
     <view class="detail_footer">
       <view class="tips">{{tips}}</view>
-      <view class="detail_footer_btn" bindtap="buyNow">
+      <view class='detail_footer_buy'>
+      <view class="detail_footer_btn_cart" bindtap="buyCart">
+        <text>加入购物车</text>
+      </view>
+        <view class="detail_footer_btn" bindtap="buyNow">
         <text>立即购买</text>
+      </view>
       </view>
     </view>
   </scroll-view>

@@ -1,61 +1,86 @@
 <!-- 信息部分开始 -->
 <form bindsubmit="formSubmit" report-submit="true">
-<view class = "info">
-<!-- 姓名部分 -->
-<view class = "item">
-<text>用户姓名</text>
-<view class = "right">
-<input type="text" name = "name" value = "{{name}}" focus="{{focus}}"/>
-</view>
-</view>
+  <view class="info">
+    <!-- 姓名部分 -->
+    <view class="item">
+      <text>用户姓名</text>
+      <view class="right">
+        <input type="text" name="name" value="{{name}}" focus="{{focus}}" value='lifei'/>
+      </view>
+    </view>
 
-<!-- 电话部分 -->
-<view class = "item">
-<text>联系电话</text>
-<view class = "right">
-<input name="tel" type="number" value="{{tel}}"  focus="{{focus}}"/>
-</view>
-</view>
-
-
-
-<!-- 收货地址部分 -->
-<view class = "item">
-<text>所在区域</text>
-<view class = "right">
-<picker name="addre" class = "addre" value="{{addreValue}}" range="{{addreRange}}" bindchange="addrePickerBindchange">
- {{addreRange[addreValue]}}
-</picker>
-
-</view>
-</view>
-
-<!-- 详细地址部分 -->
-<view class = "item">
-<text>详细地址</text>
-<view class = "right">
-<input name="door" type="text" value="{{door}}"  focus="{{focus}}"/>
-</view>
-</view>
-
-<!-- 房屋面积部分 -->
-<view class = "item">
-<text>房屋面积</text>
-<view class = "right">
-<picker name = "area" class = "area" value="{{areaValue}}" range="{{areaRange}}" bindchange="areaPickerBindchange">
- {{areaRange[areaValue]}}
-</picker>
-<text>　㎡</text>
-<text class = "remind">(以便自动计算保洁时间和服务人数)</text>
-
-</view>
-</view>
+    <!-- 电话部分 -->
+    <view class="item">
+      <text>联系电话</text>
+      <view class="right">
+        <input name="tel" type="number" value="{{tel}}" focus="{{focus}}" value='13926571006'/>
+      </view>
+    </view>
 
 
 
-</view>
-<!-- 信息部分结束 -->
-<button class = "save" formType="submit" >保存</button>
-<button class = "delete" bindtap = "delete">删除该地址</button>
-<button class = "delete" bindtap = "cancel">取消</button>
+    <!-- 收货地址部分 -->
+    <view class="item">
+      <text>所在区域</text>
+      <view class="right">
+        <input name="addre" type="text" placeholder="{{addre}}" focus="{{focus}}" value="{{areaInfo}}" bindtap='selectDistrict'>选择城市</input>
+      </view>
+    </view>
+
+    <!-- 详细地址部分 -->
+    <view class="item">
+      <text>详细地址</text>
+      <view class="right">
+        <input name="door" type="text" value="{{door}}" focus="{{focus}}" value='123'/>
+      </view>
+    </view>
+
+    <!-- 房屋面积部分 -->
+    <!-- 房屋面积部分 
+    <view class="item">
+      <text>房屋面积</text>
+      <view class="right">
+        <picker name="area" class="area" value="{{areaValue}}" range="{{areaRange}}" bindchange="areaPickerBindchange">
+          {{areaRange[areaValue]}}
+        </picker>
+        <text>　㎡</text>
+        <text class="remind">(以便自动计算保洁时间和服务人数)</text>
+
+      </view>
+    </view>
+-->
+
+
+  </view>
+  <!-- 信息部分结束 -->
+  <button class="save" formType="submit">保存</button>
+  <button class="delete" bindtap="delete">删除该地址</button>
+  <button class="delete" bindtap="cancel">取消</button>
 </form>
+
+
+
+<view class="dialog-mask " style="z-index:11;visibility:{{addressMenuIsShow ? 'visible': 'hidden'}}" bindtap="hideCitySelected" />
+<!--城市三级联动-->
+<!--使用动画时不能wx:if="{{city.length>0&&isVisible}}" ，不能hidden=''属性否则无动画效果-->
+<view class="picker-view" animation="{{animationAddressMenu}}" style="visibility:{{addressMenuIsShow ? 'visible':'hidden'}}">
+  <view style="height:10% ;width:95%;margin-top:10rpx">
+    <text catchtap="cityCancel">取消</text>
+    <text style="float: right" catchtap="citySure">确定</text>
+  </view>
+  <!--"可以显示默认的城市，使用后级联选择城市反应很慢就不使用了-->
+  <picker-view style="width: 100%; height: 300px;" bindchange="cityChange" value="{{value}}" wx:key="">
+    <picker-view-column>
+      <view wx:for="{{provinces}}" class="picker-item">
+        {{item.name}}</view>
+    </picker-view-column>
+    <picker-view-column>
+      <view wx:for="{{citys}}" class="picker-item" wx:key="">
+        {{item.name}}</view>
+    </picker-view-column>
+    <picker-view-column>
+      <view wx:for="{{areas}}" class="picker-item" wx:key="">
+        {{item.name}}</view>
+    </picker-view-column>
+  </picker-view>
+</view>

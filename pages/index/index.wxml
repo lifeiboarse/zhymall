@@ -70,7 +70,7 @@
         <block wx:for="{{scrollXList}}" wx:key="index" wx:for-index="index">
           <view class="scrollx-section__content__item">
             <view class="scrollx-section__item__wrapper">
-              <view class="view__wrapper__image">
+              <view class="view__wrapper__image" catchtap="itemclick" data-id="{{index}}">
                 <image src="{{item.image}}" />
               </view>
               <view class="view__wrapper__intro">

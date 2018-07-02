@@ -1,7 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
-
+const imgUrl ="http://www.binzhoushi.xyz/wx";
 Page({
   // activeIndex 是当前播放图片的下标
   data: {
@@ -10,119 +10,120 @@ Page({
     goodsSorts: [], // 商品的十种分类   用于获取商品分类信息，显示在页面上
     //2018.6.18
     goodclassify: ["生鲜果蔬", "粮油干货", "地方特产", "名茶名酒", "进口食品"],
-    goodclassifyimg: ["../../image/dining-table-header.jpg",
-      "../../image/grain-dry-cargo-header.jpg",
-      "../../image/local-specialty-header.jpg",
-      "../../image/tea—tobacco-header.jpg",
-      "../../image/imported-food-header.jpg"
+    goodclassifyimg: [
+      imgUrl+"/image/dining-table-header.jpg",
+      imgUrl +"/image/grain-dry-cargo-header.jpg",
+      imgUrl +"/image/local-specialty-header.jpg",
+      imgUrl +"/image/tea-tobacco-header.jpg",
+      imgUrl +"/image/imported-food-header.jpg"
     ],
     friut: [{
         "name": "菜心 2kg",
-        "pic": "../../image/dining-1.jpg",
+        "pic": imgUrl +"/image/dining-1.jpg",
         "price": "￥8.9"
       },
       {
         "name": "羊肉卷",
-        "pic": "../../image/dining-18.jpg",
+        "pic": imgUrl +"/image/dining-18.jpg",
         "price": "￥21.98"
       },
       {
         "name": "安迪山苹果",
-        "pic": "../../image/dining-3.jpg",
+        "pic": imgUrl +"/image/dining-3.jpg",
         "price": "￥8.9"
       }
     ],
     grain: [{
         "name": "有机石板米",
-        "pic": "../../image/grain-1.jpg",
+        "pic": imgUrl +"/image/grain-1.jpg",
         "price": "￥188.0"
       },
       {
         "name": "长寿花金胚玉米油",
-        "pic": "../../image/grain-16.jpg",
+        "pic": imgUrl +"/image/grain-16.jpg",
         "price": "￥208.0"
       },
       {
         "name": "龙稻稻花香大米",
-        "pic": "../../image/grain-23.jpg",
+        "pic": imgUrl +"/image/grain-23.jpg",
         "price": "￥96.0"
       }
     ],
     local: [{
         "name": "振豫臻品腐竹",
-        "pic": "../../image/local-1.jpg",
+        "pic": imgUrl +"/image/local-1.jpg",
         "price": "￥82.0"
       },
       {
         "name": "原味丹堤腰果",
-        "pic": "../../image/local-2.jpg",
+        "pic": imgUrl +"/image/local-2.jpg",
         "price": "￥398.0"
       },
       {
         "name": "精选陕北红枣",
-        "pic": "../../image/local-3.jpg",
+        "pic": imgUrl +"/image/local-3.jpg",
         "price": "￥83.0"
       }
     ],
     teawine: [{
         "name": "韩国清河清酒",
-        "pic": "../../image/tea-2.jpg",
+        "pic": imgUrl +"/image/tea-2.jpg",
         "price": "￥82.0"
       },
       {
         "name": "特级明前茶",
-        "pic": "../../image/tea-3.jpg",
+        "pic": imgUrl +"/image/tea-3.jpg",
         "price": "￥398.0"
       },
       {
         "name": "欢沁桃红葡萄酒",
-        "pic": "../../image/tea-4.jpg",
+        "pic": imgUrl +"/image/tea-4.jpg",
         "price": "￥83.0"
       },
       {
         "name": "普洱迷你小沱茶",
-        "pic": "../../image/tea-5.jpg",
+        "pic": imgUrl +"/image/tea-5.jpg",
         "price": "￥82.0"
       },
       {
         "name": "忆江南龙井",
-        "pic": "../../image/tea-6.jpg",
+        "pic": imgUrl +"/image/tea-6.jpg",
         "price": "￥82.0"
       },
       {
         "name": "欢沁桃红葡萄酒",
-        "pic": "../../image/tea-7.jpg",
+        "pic": imgUrl +"/image/tea-7.jpg",
         "price": "￥82.0"
       }
     ],
     imported: [{
         "name": "泰国金枕头榴莲",
-        "pic": "../../image/imported-1.jpg",
+        "pic": imgUrl +"/image/imported-1.jpg",
         "price": "￥82.0"
       },
       {
         "name": "爱伦蒂全脂纯牛奶",
-        "pic": "../../image/imported-2.jpg",
+        "pic": imgUrl +"/image/imported-2.jpg",
         "price": "￥398.0"
       },
       {
         "name": "澳洲混合桉树蜂蜜",
-        "pic": "../../image/imported-3.jpg",
+        "pic": imgUrl +"/image/imported-3.jpg",
         "price": "￥83.0"
       },
       {
         "name": "马来西亚白咖啡",
-        "pic": "../../image/imported-4.jpg",
+        "pic": imgUrl +"/image/imported-4.jpg",
         "price": "￥82.0"
       },
       {
         "name": "越南白心火龙果 ",
-        "pic": "../../image/imported-6.jpg",
+        "pic": imgUrl +"/image/imported-6.jpg",
         "price": "￥82.0"
       },
       {
         "name": "西班牙特级橄榄油",
-        "pic": "../../image/imported-39.jpg",
+        "pic": imgUrl +"/image/imported-39.jpg",
         "price": "￥82.0"
       }
     ]
@@ -162,6 +163,7 @@ Page({
       url: "../goodsList/goodsList"
     })
   },
+
   addInCart: function(e) {
     console.log(e);
     const good = this.data.scrollXList[e.currentTarget.id]; // 根据index，判断用户点击了哪个商品加入购物车
@@ -176,7 +178,7 @@ Page({
     // 如果购物车中没有该元素，就将该商品加入购物车，否则就将该商品的购买数量加一
     if (!flag) {
       //调用DB添加购物车
-
+      this.addCard(e);
 
       cart.push(good); // 用户选择商品加入购物车后，将该商品加入购物车列表
       wx.showToast({
@@ -186,30 +188,64 @@ Page({
       })
     } else {
       //调用DB修改购物车数量
-
+      this.updateCartNumber(e);
 
       this.data.scrollXList[e.currentTarget.id].count++;
     }
   },
 
-  addCard: function() {
-    var requestData = "{ 'userId': 'qyf', 'shopId': '123456', 'productId': '123456' , 'number': '123456' , 'price': '123456' , 'quantity': '123456'}";
+
+  //首次点击添加到购物车
+  addCard: function(e) {
+    var requestData = {
+      'userId': 1,
+      'shopId': 1,
+      'goodsId': e.currentTarget.id,
+      'number': 1,
+      'price': 1,
+      'quantity': 1
+    };
     wx.request({
-      url: 'http://localhost:8080/zhy/cart/api/insert',
+      url: 'http://www.binzhoushi.xyz/zhy/cart/saveSelective',
       header: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/json'
       },
       method: "POST",
-      data: {
-        requestJson: requestData
+      data: requestData,
+      success: function(res) {
+        console.log("add cart success:" + JSON.stringify(res))
       },
-      success: function(res) {},
-      fail: function(res) {},
+      fail: function(res) {
+        console.log("add cart fail:" + JSON.stringify(res))
+      },
       complete: function(res) {},
     })
 
   },
+  //修改购物数量和总价格
+  updateCartNumber: function(e) {
+    var requestData = {
+      'goodsId': e.currentTarget.id,
+      'userId':1
+    };
 
+    wx.request({
+      url: 'http://www.binzhoushi.xyz/zhy/cart/updateCartNumber',
+      header: {
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      data: requestData,
+      success: function(res) {
+        console.log("update cart success:" + JSON.stringify(res))
+      },
+      fail: function(res) {
+        console.log("update cart fail:" + JSON.stringify(res))
+      },
+      complete: function(res) {},
+    })
+
+  },
   //事件处理函数
   bindViewTap: function() {
 
@@ -237,5 +273,12 @@ Page({
   },
   getUserInfo: function(e) {
 
-  }
+  },
+  //跳转到goodsdetail
+  itemclick: function (e) {
+    var id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: '../goodsDetail/goodsDetail?id=' + id
+    })
+  },
 })

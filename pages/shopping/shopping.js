@@ -14,7 +14,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     const cardList = app.globalData.cardList;
     cardList.map(item => {
       item.type = "success";
@@ -24,26 +24,39 @@ Page({
       // 页面加载时就给购物车显示商品数量
       goodsList: cardList
     });
+
+    //调用数据库查询购物车
+    this.searchCart();
     // 页面加载完成前就开始计算总钱数用于显示
     this.sumMoney();
     // 页面加载完成前就判断完商品是否全选，并指定全选的状态
     this.allSelected();
   },
   // 增加商品数量
-  addCount: function (e) {
+  addCount: function(e) {
     var that = this;
-    console.log(e);
+    //console.log(e);
     const goodId = e.currentTarget.id;
-    console.log(that.data.goodsList[goodId]);
+    //console.log(that.data.goodsList[goodId]);
     that.data.goodsList[goodId].count++;
-    console.log(that.data.goodsList[goodId]);
+    //console.log(that.data.goodsList[goodId]);
     this.setData({
       goodsList: that.data.goodsList
     })
+
+    //调用数据库修改商品数量
+    const selected = that.data.goodsList[e.currentTarget.id].cart;
+
+    const requestData = {
+      'id': selected.id,
+      'count': selected.count + 1
+    }
+    this.updateCart(requestData);
+
     this.sumMoney();
   },
   // 减少商品数量
-  reduceCount: function (e) {
+  reduceCount: function(e) {
     var that = this;
     const goodId = e.currentTarget.id;
     // console.log(that.data.goodsList[goodId]);
@@ -61,17 +74,27 @@ Page({
     this.setData({
       goodsList: that.data.goodsList
     })
+
+    //调用数据库修改商品数量
+    const selected = that.data.goodsList[e.currentTarget.id].cart;
+
+    const requestData = {
+      'id': selected.id,
+      'count': selected.count-1
+    }
+    this.updateCart(requestData);
+
     this.sumMoney();
   },
   // 计算所有商品的钱数
-  sumMoney: function () {
+  sumMoney: function() {
     var count = 0;
     const goods = this.data.goodsList;
-    console.log(goods);
+    //console.log(goods);
     for (let i = 0; i < goods.length; i++) {
       // console.log(goods[i].count);
       // console.log(goods[i].price);
-      count += goods[i].count * goods[i].price;
+      count += goods[i].cart.count * goods[i].goods.price;
     }
     //console.log(count);
     this.setData({
@@ -84,7 +107,7 @@ Page({
     var that = this
     //登录获取code
     wx.login({
-      success: function (res) {
+      success: function(res) {
         console.log("login code:" + res.code)
         //获取openid
         //that.getOpenId(res.code);
@@ -93,20 +116,20 @@ Page({
   },
 
   //去结算跳转到提交订单页面
-  settlement: function () {
+  settlement: function() {
 
     // 保留当前页面，跳转到应用内的某个页面，使用wx.navigateBack可以返回到原页面。
     wx.navigateTo({
       url: '../cleanOrder/cleanOrder',
-      success: function () {
+      success: function() {
         //成功后的回调；
         console.log("去结算提交成功")
       },
-      fail: function () {
+      fail: function() {
         //失败后的回调；
         console.log("去结算提交失败")
       },
-      complete: function () {
+      complete: function() {
         //结束后的回调(成功，失败都会执行)
         console.log("去结算提交")
       }
@@ -116,22 +139,22 @@ Page({
 
 
   //结算支付功能
-  getOpenId: function (code) {
+  getOpenId: function(code) {
     var that = this;
     wx.request({
       url: "https://api.weixin.qq.com/sns/jscode2session?appid=wx64db6c2b70842ec1&secret=6b97c04aae688c9e2a92a05cf290518c&js_code=" + code + "&grant_type=authorization_code",
       data: {},
       method: 'GET',
 
-      success: function (res) {
+      success: function(res) {
         console.log('生成订单成功！' + res.data)
         that.generateOrder(res.data.openid)
       },
-      fail: function (res) {
+      fail: function(res) {
         // fail
         console.log('生成订单失败！' + res.data)
       },
-      complete: function (res) {
+      complete: function(res) {
         // complete
         console.log('生成订单失败！' + res.data)
       }
@@ -139,7 +162,7 @@ Page({
     })
   },
   //生成商户订单
-  generateOrder: function (openid) {
+  generateOrder: function(openid) {
     var that = this;
     //统一支付
     wx.request({
@@ -150,27 +173,33 @@ Page({
         gname: '商品名称',
         openId: openid //（商品价钱和商品名称根据自身需要是否传值, openid为必传）
       },
-      success: function (res) {
+      success: function(res) {
         var pay = res.data
         //发起支付
         var timeStamp = pay[0].timeStamp;
         var packages = pay[0].package;
         var paySign = pay[0].paySign;
         var nonceStr = pay[0].nonceStr;
-        var param = { "timeStamp": timeStamp, "package": packages, "paySign": paySign, "signType": "MD5", "nonceStr": nonceStr };
+        var param = {
+          "timeStamp": timeStamp,
+          "package": packages,
+          "paySign": paySign,
+          "signType": "MD5",
+          "nonceStr": nonceStr
+        };
         that.pay(param);
       },
-      fail: function () {
+      fail: function() {
         console.log("generateOrder")
       },
-      complete: function () {
+      complete: function() {
         console.log("generateOrder")
       }
     })
   },
 
   //支付
-  pay: function (param) {
+  pay: function(param) {
     console.log('支付')
     console.log(param)
     wx.requestPayment({
@@ -179,39 +208,39 @@ Page({
       package: param.package,
       signType: param.signType,
       paySign: param.paySign,
-      success: function (res) {
+      success: function(res) {
         // success
         wx.navigateBack({
-          delta: 1,// 回退前 delta(默认为1) 页面
-          success: function (res) {
+          delta: 1, // 回退前 delta(默认为1) 页面
+          success: function(res) {
             wx.showToast({
               title: '支付成功',
               icon: 'success',
               duration: 2000
             })
           },
-          fail: function () {
+          fail: function() {
             // fail
           },
-          complete: function () {
+          complete: function() {
             // complete
           }
         })
       },
-      fail: function (res) {
+      fail: function(res) {
         // fail
       },
-      complete: function (res) {
+      complete: function(res) {
         // complete
       }
     })
 
   },
 
-  selectGoods: function (e) {
+  selectGoods: function(e) {
     // console.log(e.currentTarget.id);
     // 根据index找到用户点击的是哪一件商品
-    const selected = this.data.goodsList[e.currentTarget.id];
+    const selected = this.data.goodsList[e.currentTarget.id].cart;
     // 改变选中商品的type属性  通过这种方式标记出哪些商品被选中了，以及改变最前面是钩还是圆圈
     if (selected.type === "success") {
       selected.type = "circle";
@@ -221,27 +250,43 @@ Page({
     this.setData({
       goodsList: this.data.goodsList
     })
+
+    //调用数据库修改商品是否选中
+    const requestData = {
+      'id': selected.id,
+      'type': selected.type
+    }
+    this.updateCart(requestData);
+
     this.allSelected();
   },
   // 用来判断是否全选
-  allSelected: function () {
+  allSelected: function() {
     const goods = this.data.goodsList;
     console.log(goods);
-    var symbol = goods.some(good => {
-      return good.type === "circle"
-    })
-    console.log(symbol);
+    //标识购物车产品是否全部选中
+    var symbol = true;
+    if (goods.length === 0) {
+      return true
+    } else {
+      symbol = goods.some(good => {
+        return good.cart.type === "circle"
+      })
+    }
+
+
+    console.log("symbol:"+symbol);
     if (symbol) {
       this.data.allStatus = "circle"
     } else {
       this.data.allStatus = "success"
     }
-    console.log(this.data.allStatus);
+    //console.log(this.data.allStatus);
     this.setData({
       allStatus: this.data.allStatus
     })
   },
-  selOrUnsel: function () {
+  selOrUnsel: function() {
     // console.log(this.data.allStatus);
     // 获得全选按钮和商品列表
     const status = this.data.allStatus;
@@ -252,12 +297,28 @@ Page({
       this.data.allStatus = "circle";
       // 遍历商品列表的每一项进行判断
       goods.map(good => {
-        good.type = "circle";
+        good.cart.type = "circle";
+
+        //调用数据库修改商品是否选中
+        const requestData = {
+          'id': good.cart.id,
+          'type': good.cart.type
+        }
+        this.updateCart(requestData);
+
       })
     } else {
       this.data.allStatus = "success";
       goods.map(good => {
-        good.type = "success";
+        good.cart.type = "success";
+
+        //调用数据库修改商品是否选中
+        const requestData = {
+          'id': good.cart.id,
+          'type': good.cart.type
+        }
+        this.updateCart(requestData);
+
       })
     }
     // 将结果设置回页面上进行显示
@@ -269,12 +330,14 @@ Page({
     })
   },
   // 删除商品
-  delGoods: function () {
+  delGoods: function() {
     const goods = this.data.goodsList;
     // 对购物车中所有的元素进行遍历，找出选中的元素，组成selGoods数组
     const selGoods = goods.map(good => {
-      if (good.type === "success") {
+      if (good.cart.type === "success") {
         return good;
+      } else {
+        return null;
       }
     })
     wx.showModal({
@@ -284,12 +347,17 @@ Page({
         if (res.confirm) {
           // 对要删除的元素数组进行遍历，逐个用splice方法进行删除
           selGoods.map(sel => {
-            goods.splice(sel);
+            //goods.splice(sel);
+            if (null != sel) {
+              this.deleteCart(sel.cart.id);
+            }
           })
           // 删除成功以后从新设置页面的值
+          /** 
           this.setData({
             goodsList: this.data.goodsList
           })
+          */
         } else if (res.cancel) {
 
         }
@@ -297,56 +365,123 @@ Page({
     })
   },
 
+  //查询购物车
+  searchCart: function() {
+    var userId = 1;
+    var that = this;
+    wx.request({
+      url: 'http://www.binzhoushi.xyz/zhy/cart/list?userId=' + userId,
+      header: {
+        'Content-Type': 'application/json'
+      },
+      method: "GET",
+      data: {},
+      success: function(res) {
+        //console.log("search cart success:" + JSON.stringify(res));
+        // 页面加载时就给购物车显示商品数量
+        that.setData({
+          goodsList: res.data.data
+        })
+      },
+      fail: function(res) {
+        console.log("search cart fail:" + JSON.stringify(res))
+      }
+    })
+  },
+  //修改购物车
+  updateCart: function(requestData) {
+    var that = this;
+    wx.request({
+      url: 'http://www.binzhoushi.xyz/zhy/cart/updateSelective',
+      header: {
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      data: requestData,
+      success: function(res) {
+        //console.log("search cart success:" + JSON.stringify(res));
+        that.searchCart();
+      },
+      fail: function(res) {
+        console.log("search cart fail:" + JSON.stringify(res))
+      }
+    })
+  },
+
+  //删除购物车
+  deleteCart: function(id) {
+    var that = this;
+    wx.request({
+      url: 'http://www.binzhoushi.xyz/zhy/cart/delete?id=' + id,
+      header: {
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      data: {},
+      success: function(res) {
+        //console.log("search cart success:" + JSON.stringify(res));
+        that.searchCart();
+      },
+      fail: function(res) {
+        console.log("search cart fail:" + JSON.stringify(res))
+      }
+    })
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
+
     this.setData({
       // 页面加载时就给购物车显示商品数量
       goodsList: app.globalData.cardList
     });
+    //查询购物车
+    this.searchCart();
+
     this.sumMoney();
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 })

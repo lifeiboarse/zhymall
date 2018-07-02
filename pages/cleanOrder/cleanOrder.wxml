@@ -35,7 +35,7 @@
         支付方式
       </view>
       <view class="right">
-        <view class="gray">在线支付</view>
+        <view class="gray" name="payChannel" value="{{payChannel}}">在线支付</view>
       </view>
     </view>
 
@@ -83,17 +83,17 @@
 
     <view class='item'>
       <view class='left'>商品金额</view>
-      <view class='right'>￥1000</view>
+      <view class='right' name="productTotal" value="{{productTotal}}">￥{{productTotal}}</view>
     </view>
     <view class='item'>
       <view class='left'>运费</view>
-      <view class='right'>￥1000</view>
+      <view class='right' name="logisticsFee" value="{{logisticsFee}}">￥{{logisticsFee}}</view>
     </view>
 
     <view>
       <view class='item'>
         <view class='left'>总金额</view>
-        <view class='right'>￥2000</view>
+        <view class='right' name="orderTotal" value="{{orderTotal}}">￥{{orderTotal}}</view>
       </view>
     </view>
 

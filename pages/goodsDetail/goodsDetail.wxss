@@ -58,8 +58,19 @@ swiper-item image {
 
 .detail_footer_btn {
   width: 100%;
-  height: 58px;
+  height: 50px;
   background-color: #dd3a40;
+  color: white;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.detail_footer_btn_cart {
+  width: 100%;
+  height: 50px;
+  background-color: goldenrod;
   color: white;
   text-align: center;
   align-items: center;
@@ -88,4 +99,8 @@ swiper-item image {
   line-height: 22px;
   font-size: 18px;
   color: red;
+}
+
+.detail_footer_buy{
+  display: flex
 }
