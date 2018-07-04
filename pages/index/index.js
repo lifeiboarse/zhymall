@@ -200,10 +200,8 @@ Page({
     var requestData = {
       'userId': 1,
       'shopId': 1,
-      'goodsId': e.currentTarget.id,
-      'number': 1,
-      'price': 1,
-      'quantity': 1
+      'productId': e.currentTarget.id,
+      'number': 1
     };
     wx.request({
       url: 'http://www.binzhoushi.xyz/zhy/cart/saveSelective',
@@ -225,7 +223,7 @@ Page({
   //修改购物数量和总价格
   updateCartNumber: function(e) {
     var requestData = {
-      'goodsId': e.currentTarget.id,
+      'productId': e.currentTarget.id,
       'userId':1
     };
 
@@ -270,6 +268,8 @@ Page({
         })
       }
     })
+    //初始化商品列表
+    //this.searchProductList();
   },
   getUserInfo: function(e) {
 
@@ -281,4 +281,27 @@ Page({
       url: '../goodsDetail/goodsDetail?id=' + id
     })
   },
+  //查询商品列表
+  searchProductList: function () {
+    var that = this;
+    wx.request({
+      url: 'http://www.binzhoushi.xyz/zhy/product/list',
+      header: {
+        'Content-Type': 'application/json'
+      },
+      method: "GET",
+      data: {},
+      success: function (res) {
+        //console.log("search Product success:" + JSON.stringify(res));
+        // 页面加载时就显示商品
+        that.setData({
+          scrollXList: res.data.data
+        })
+      },
+      fail: function (res) {
+        console.log("search Product fail:" + JSON.stringify(res))
+      }
+    })
+  },
+
 })

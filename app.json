@@ -4,26 +4,25 @@
     "pages/index/index",
     "pages/login/login",
     "pages/mine/mine",
-    "pages/newAddre/newAddre",
+    "pages/shopping/shopping",
     "pages/sort/sort",
     "pages/my/index",
     "pages/pay/index",
     "pages/goodsList/goodsList",
-    "pages/shopping/shopping",
-    "pages/cleanOrder/cleanOrder",
     "pages/chooseAddre/chooseAddre",
-   
+    "pages/cleanOrder/cleanOrder",
     "pages/modifyAddre/modifyAddre",
+    "pages/newAddre/newAddre",
     "pages/logs/logs",
     "pages/ordertotal/ordertotal",
     "pages/goodsDetail/goodsDetail",
-    "pages/paycomplete/paycomplete"
-    
+    "pages/paycomplete/paycomplete",
+    "pages/confirm/confirm"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#0eb6ff",
-    "navigationBarTitleText": "智慧云菜场",
+    "navigationBarTitleText": "彬州市果蔬市场",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {

@@ -15,7 +15,6 @@
       <view class="left">
         <view class="left_top">
           <image src="../../images/map2.png" mode="widthFix" /> {{name}}　{{tel}}
-          
         </view>
         <view class="left_bottom">
           地址：{{addre}}
@@ -40,8 +39,11 @@
     </view>
 
     <view class='item'>
-      <view class='left'>产品</view>
-      <view class='right'>描述</view>
+      <view class='left'>商品</view>
+      <view class='right'>
+        <image src="http://www.binzhoushi.xyz/wx/image/dining-1.jpg"  mode="aspectFit" repeat="repeat" style='width:30px;height:30px'></image>
+        <image src="http://www.binzhoushi.xyz/wx/image/dining-1.jpg"  mode="aspectFit" repeat="repeat" style='width:30px;height:30px'></image>
+      </view>
     </view>
 
     <view class='item'>
@@ -55,12 +57,12 @@
       <view class="left">
         送货
       </view>
-      <view class="right">
+      <view class="right gray">
         <picker name="date" mode="date" value="{{dateValue}}" start="2017-05-19" end="2100-12-12" bindchange="datePickerBindchange">
           {{dateValue}}
         </picker>
         |
-        <picker name="time" mode="time" value="{{timeValue}}" start="08:00" end="18:00" bindchange="timePickerBindchange">
+        <picker class='gray' name="time" mode="time" value="{{timeValue}}" start="08:00" end="18:00" bindchange="timePickerBindchange">
           {{timeValue}}
         </picker>
       </view>
@@ -87,7 +89,7 @@
     </view>
     <view class='item'>
       <view class='left'>运费</view>
-      <view class='right' name="logisticsFee" value="{{logisticsFee}}">￥{{logisticsFee}}</view>
+      <view class='right' name="logisticsFee" value="{{logisticsFee}}">￥0.00</view>
     </view>
 
     <view>

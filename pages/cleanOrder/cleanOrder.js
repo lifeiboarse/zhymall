@@ -1,6 +1,7 @@
 var flag = false;
 Page({
   data: {
+    addressId: "",
     name: "",
     tel: "",
     area: "",
@@ -19,11 +20,12 @@ Page({
         value: ' 短信'
       }
     ],
-    comment: "",  
-    productTotal:"",
-    logisticsFee: "",
+    comment: "",
+    productTotal: "",
     orderTotal: "",
-    order:null
+    logisticsFee: "",
+
+    order: null
   },
 
   onLoad: function(options) {
@@ -47,11 +49,17 @@ Page({
       })
     }
     this.searchAddress();
-    this.placeOrder();
+
+    if (options.cartIds != null) {
+      this.cleanCart(options.cartIds);
+    } else {
+      this.placeOrder();
+    }
+
   },
 
   toChooseAddre: function() {
-    wx.redirectTo({
+    wx.navigateTo({
       url: '../chooseAddre/chooseAddre',
       success: function() {
         console.log("选择地址成功")
@@ -143,7 +151,7 @@ Page({
       });
        */
       console.log('form发生了submit事件，携带数据为：', e.detail.value);
-     
+
       //调用数据生成订单
       that.addOrder(e);
     }
@@ -247,6 +255,7 @@ Page({
           that.setData({
             display1: "none",
             display2: "flex",
+            addressId: res.data.data[0].id,
             name: res.data.data[0].name,
             tel: res.data.data[0].tel,
             addre: res.data.data[0].addre
@@ -260,7 +269,7 @@ Page({
   },
 
   //查询购物车
-  placeOrder: function () {
+  placeOrder: function() {
     var userId = 1;
     var that = this;
     wx.request({
@@ -270,18 +279,46 @@ Page({
       },
       method: "GET",
       data: {},
-      success: function (res) {
+      success: function(res) {
         //console.log("search cart success:" + JSON.stringify(res));
         // 页面加载时就给购物车显示商品数量
-        
-      that.setData({
-        order: res.data.data.order,
-        productTotal: res.data.data.order.productAmountTotal,
-        orderTotal: res.data.data.order.orderAmountTotal,
-        logisticsFee: res.data.data.order.logisticsFee
-      })
+
+        that.setData({
+          order: res.data.data.order,
+          productTotal: res.data.data.order.productTotalPrice,
+          orderTotal: res.data.data.order.orderTotalPrice,
+          logisticsFee: res.data.data.order.logisticsFee
+        })
       },
-      fail: function (res) {
+      fail: function(res) {
+        console.log("search cart fail:" + JSON.stringify(res))
+      }
+    })
+  },
+
+  //根据cartID查询购物车
+  cleanCart: function(param) {
+
+    var that = this;
+    wx.request({
+      url: 'http://www.binzhoushi.xyz/zhy/order/generateOrder',
+      header: {
+        'Content-Type': 'application/json'
+      },
+      method: "POST",
+      data: [param],
+      success: function(res) {
+        //console.log("search cart success:" + JSON.stringify(res));
+        // 页面加载时就给购物车显示商品数量
+
+        that.setData({
+          order: res.data.data.order,
+          productTotal: res.data.data.order.productTotalPrice,
+          orderTotal: res.data.data.order.orderTotalPrice,
+          logisticsFee: res.data.data.order.logisticsFee
+        })
+      },
+      fail: function(res) {
         console.log("search cart fail:" + JSON.stringify(res))
       }
     })
@@ -294,10 +331,10 @@ Page({
       'orderNo': 1,
       'shopId': 1,
       'orderStatus': 1,
-      'productAmountTotal': this.data.order.productAmountTotal,
-      'orderAmountTotal': this.data.order.orderAmountTotal,
+      'productTotalPrice': this.data.order.productTotalPrice,
+      'orderTotalPrice': this.data.order.orderTotalPrice,
       'logisticsFee': this.data.order.logisticsFee,
-      'addressId': 1,
+      'addressId': this.data.addressId,
       'orderlogisticsId': 1,
       'payChannel': 1
     };
@@ -310,9 +347,15 @@ Page({
       data: requestData,
       success: function(res) {
         console.log("add order success:" + JSON.stringify(res))
+        wx.navigateTo({
+          url: '../paycomplete/paycomplete?flag=1'
+        });
       },
       fail: function(res) {
         console.log("add order fail:" + JSON.stringify(res))
+        wx.navigateTo({
+          url: '../paycomplete/paycomplete?flag=0'
+        });
       },
       complete: function(res) {},
     })

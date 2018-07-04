@@ -53,12 +53,12 @@ Page({
     } else if (ordertype == 2) {
       status = "30";
     }
-    var pageNo = that.data.pageNo;
+    //var pageNo = that.data.pageNo;
     
     request.req(uri, {
-      ordersn: '1',
-      status: status,
-      pageNo: pageNo,
+      //ordersn: '1',
+      //status: status,
+      //pageNo: pageNo,
     }, (err, res) => {
       //console.log("list:"+res.data)
       if (true) {
@@ -96,9 +96,10 @@ Page({
                 button: "查看详情",
                 state: "其他状态",
                 orderTotalPrice: item.orderTotalPrice, //总价
-                goodsImage: "../../assets/images/p1.jpg",// item.orderGoodsList[0].goodsImage,//图片地址
-                goodsName: "性感美胸尤物嘉嘉大胆妩媚巨乳人体艺术写真",//item.orderGoodsList[0].goodsName,  //商品介绍介绍
-                goodsNum: "1000",//item.orderGoodsList[0].goodsNum  //商品数量
+                goodsImage: "../../assets/images/p1.jpg",// item.orderProductList[0].goodsImage,//图片地址
+                goodsName: item.orderProductList[0].productName,  //商品介绍介绍
+                goodsNum: item.orderProductList[0].productNumber,  //商品数量
+                productId: item.orderProductList[0].id  //商品数量
               });
             }
           }
@@ -113,12 +114,13 @@ Page({
   //点击到相应的页面
   orderbutton: function (options) {
     var type = options.currentTarget.dataset.button;
+    var id = options.currentTarget.dataset.id;
     console.log(type)
     if (type == "去支付") {
 
     } else if (type == "查看详情") {
       wx.navigateTo({
-        url: '../goodsDetail/goodsDetail?id=' + 0
+        url: '../goodsDetail/goodsDetail?id=' + id
       })
       
     } else if (type == "确认收货") {
@@ -130,7 +132,7 @@ Page({
     console.log("下滑啦");
     var that = this;
     that.setData({ pageNo: that.data.pageNo + 1 })
-    that.getData();
+    //that.getData();
   },
 
   /**

@@ -15,14 +15,14 @@
                         <icon id="{{index}}" bindtap="selectGoods" type="{{item.cart.type}}" color="#23a3ff"></icon>
                     </view>
                     <view class="weui-cell__bd">
-                        <image src="{{item.goods.image}}" />
+                        <image src="{{item.product.image}}" />
                     </view>
                     <view class="weui-cell__ft right">
-                        <text class="proIntr left">{{item.goods.name}}</text>
-                        <text class="price left">￥{{item.goods.price}}/{{item.goods.unit}}</text>
+                        <text class="proIntr left">{{item.product.name}}</text>
+                        <text class="price left">￥{{item.product.price}}/{{item.product.unit}}</text>
                         <view class="count">
                             <text class="reduce left" bindtap="reduceCount" id="{{index}}">-</text>
-                            <text class="number left">{{item.cart.count}}</text>
+                            <text class="number left">{{item.cart.productCount}}</text>
                             <text class="add left" bindtap="addCount" id="{{index}}">+</text>
                         </view>
                     </view>

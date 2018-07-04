@@ -15,7 +15,7 @@
   width: 33%;
   color: gray;
   text-align: center;
-  font-size: 28rpx;
+  font-size: 32rpx;
 }
 
 .top-bar-active {

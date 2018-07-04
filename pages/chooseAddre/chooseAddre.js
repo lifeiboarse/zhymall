@@ -1,10 +1,11 @@
-//var li=[];
 var index = 0;
 var li = [];
-image: null;
+//image: null;
 Page({
   data: {
+    image:"../../images/uncheck.png",
     list: li,
+   
   },
   addAddre: function(e) {
     wx.navigateTo({
@@ -19,6 +20,7 @@ Page({
     })
   },
   toCleanOrder: function(e) {
+    /** 
     for (var i = 0; i < this.data.list.length; i++) {
       if (i == e.currentTarget.dataset.index) {
         li[e.currentTarget.dataset.index].image = "../../images/check.jpg"
@@ -26,7 +28,8 @@ Page({
         li[i].image = "../../images/uncheck.png"
       }
     }
-    wx.redirectTo({
+    */
+    wx.navigateTo({
       url: '../cleanOrder/cleanOrder?name=' + e.currentTarget.dataset.name + "&tel=" + e.currentTarget.dataset.tel + "&area=" + e.currentTarget.dataset.area + "&addre=" + e.currentTarget.dataset.addre + "&areavalue=" + e.currentTarget.dataset.areavalue + "&flag=" + true,
       success: function(e) {
         //跳转到支付页面成功
@@ -37,7 +40,7 @@ Page({
         console.log("跳转到支付页面失败" + e.errMsg)
       }
     });
-    console.log("姓名为：" + e.currentTarget.dataset.name + "，手机是：" + e.currentTarget.dataset.tel + "，地址是：" + e.currentTarget.dataset.addre + "，面积是：" + e.currentTarget.dataset.area + "，是否选择是：" + e.currentTarget.dataset.index);
+    
   },
 
   onLoad: function(options) {
@@ -45,6 +48,7 @@ Page({
     var sign = 0 //判断从修改页面中的保存还是删除按钮过来，保存为1，删除为2
     flag = options.flag;
     sign = options.sign;
+    /** 
     if (flag) {
       li.push({
         "index": index++,
@@ -58,9 +62,10 @@ Page({
         "door": options.door
       })
       this.setData({
-        //list: li
+        list: li
       })
-    };
+      
+    };*/
    /** 
     if (sign == '1') {
       console.log("我是从修改页面过来的" + options.addrevalue)
@@ -99,13 +104,15 @@ Page({
       success: function(res) {
         console.log("query address success:" + JSON.stringify(res));
         li = res.data.data;
+        /** 
         li.map(item => {
           if (item.image1 === null){
-            item.image = "../../images/uncheck.png";
+            //item.image = "../../images/uncheck.png";
           }else{
-            item.image = "../../images/uncheck.png";
+            //item.image = "../../images/uncheck.png";
           }
         });
+        */
         that.setData({
           list: li
         })

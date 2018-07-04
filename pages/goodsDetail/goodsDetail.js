@@ -1,11 +1,12 @@
 // pages/goodsDetail/goodsDetail.js
 var specId = ''
 var goodsId = ''
+var isNowBuy = true
 var app = getApp();
 var request = require('../../utils/https.js')
-var uribuy = 'cartapi/addCart' //立即购买
-var uri = 'goods/api/get'
-var uri_h5 = 'http://www.binzhoushi.xyz/zhy/goods/api/get'
+var uribuy = 'cart/saveSelective' //立即购买
+var uri = 'product/query'
+var uri_h5 = 'http://www.binzhoushi.xyz/zhy/product/query'
 //在使用的View中引入WxParse模块
 var WxParse = require('../../wxParse/wxParse.js');
 Page({
@@ -36,11 +37,15 @@ Page({
 
   },
 
-  buyNow: function(event) { //获取cartId
+  buyNow: function(event) { 
+    var that = this;
+    var userId=1;
+    /** 
+    //获取cartId
     //判断是否登陆,如果未登陆跳到登陆界面，如果登陆就调接口，跳转确认订单界面
     var CuserInfo = wx.getStorageSync('CuserInfo');
     console.log(CuserInfo.token)
-    if (!CuserInfo.token) {
+    if (false) {//!CuserInfo.token
       //跳转到login
       wx.navigateTo({
         url: '../login/login?goodsId=' + goodsId + '&specId=' + specId,
@@ -48,17 +53,17 @@ Page({
     } else {
       var that = this;
       request.req(uribuy, {
-        specId: specId,
-        count: '1',
-        saveType: '1',
-        goodsId: goodsId
+        //specId: specId,
+        productCount: '1',
+        //saveType: '1',
+        productId: goodsId
       }, (err, res) => {
         var result = res.data;
         console.log(result);
         if (result.result == 1) { //获取cartId
           //拿着cartId跳转到确认订单界面
           wx.navigateTo({ //获取cartId
-            url: '../orderConfirm/orderConfirm?cartIds=' + result.data[0].cartIds,
+            url: '../cleanOrder/cleanOrder?cartIds=' + result.data[0].id,
           })
         } else {
           that.setData({
@@ -68,16 +73,20 @@ Page({
         }
       })
     }
+    */
+    isNowBuy=true;
+    that.addCard(userId, goodsId);
+
   },
 
 
 
   //数据请求
   requestData: function(oo) {
-    specId = oo.specId;
+    specId = oo.id;
     var that = this;
     request.req(uri, {
-      specId: specId
+      id: specId
     }, (err, res) => {
       if (res.data.result == 1) {
         goodsId = res.data.data.id,
@@ -85,7 +94,7 @@ Page({
           wx.request({
             url: uri_h5,
             data: {
-              goodsId: goodsId
+              id: goodsId
             },
             method: 'GET',
             success: function(res) {
@@ -132,6 +141,7 @@ Page({
         //console.log("search cart success:" + JSON.stringify(res));
         // 页面加载时就给购物车显示商品数量
         if (res.data.data.length === 0) {
+          isNowBuy=false;
           that.addCard(userId, goodsId);
           console.log("add cart success:");
         } else {
@@ -145,10 +155,10 @@ Page({
     })
   },
   //首次点击添加到购物车
-  addCard: function(userId, goodsId) {
+  addCard: function (userId, productId) {
     var requestData = {
       'userId': userId,
-      'goodsId': goodsId
+      'productId': productId
     };
     wx.request({
       url: 'http://www.binzhoushi.xyz/zhy/cart/saveSelective',
@@ -159,6 +169,12 @@ Page({
       data: requestData,
       success: function(res) {
         console.log("detail add cart success:" + JSON.stringify(res))
+        if (isNowBuy){
+          //拿着cartId跳转到确认订单界面
+          wx.navigateTo({ //获取cartId
+            url: '../cleanOrder/cleanOrder?cartIds=' + res.data.data,
+          })
+        }
       },
       fail: function(res) {
         console.log("detail add cart fail:" + JSON.stringify(res))
@@ -167,9 +183,9 @@ Page({
 
   },
   //修改购物数量和总价格
-  updateCartNumber: function(userId, goodsId) {
+  updateCartNumber: function (userId, productId) {
     var requestData = {
-      'goodsId': goodsId,
+      'productId': productId,
       'userId': userId
     };
     wx.request({

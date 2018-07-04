@@ -13,7 +13,7 @@
           <view class="item-text">状态:{{item.state}}</view>
           <view class="item-text">总价:{{item.orderTotalPrice}}</view>
         </view>
-        <button data-button="{{item.button}}"class="status" bindtap="orderbutton">{{item.button}}</button>
+        <button data-button="{{item.button}}" data-id="{{item.productId}}" class="status" bindtap="orderbutton">{{item.button}}</button>
       </view>
       <view class="divLine"></view>
       <view class="item-bottom">

@@ -1,6 +1,6 @@
 <view class="item" wx:for="{{list}}" bindtap="toCleanOrder" data-index="{{item.index}}" data-id="{{item.id}}" data-name="{{item.name}}" data-tel="{{item.tel}}" data-area="{{item.area}}" data-addre="{{item.addre}}" data-image="{{item.image}}" data-areavalue="{{item.areavalue}}"
   data-addrevalue="{{item.addrevalue}}" data-door="{{item.door}}">
-  <image src="{{item.image}}" mode="widthFix" />
+  <image src="{{image}}" mode="widthFix" />
   <view class="info">
     <text>{{item.name}}，{{item.tel}}</text>
     <text>地址：{{item.addre}}</text>

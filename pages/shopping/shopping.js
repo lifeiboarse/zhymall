@@ -28,7 +28,7 @@ Page({
     //调用数据库查询购物车
     this.searchCart();
     // 页面加载完成前就开始计算总钱数用于显示
-    this.sumMoney();
+    //this.sumMoney();
     // 页面加载完成前就判断完商品是否全选，并指定全选的状态
     this.allSelected();
   },
@@ -48,8 +48,8 @@ Page({
     const selected = that.data.goodsList[e.currentTarget.id].cart;
 
     const requestData = {
-      'id': selected.id,
-      'count': selected.count + 1
+      'id':selected.id,
+      'productCount': selected.productCount + 1
     }
     this.updateCart(requestData);
 
@@ -79,8 +79,8 @@ Page({
     const selected = that.data.goodsList[e.currentTarget.id].cart;
 
     const requestData = {
-      'id': selected.id,
-      'count': selected.count-1
+      "id":selected.id,
+      "productCount": selected.productCount-1
     }
     this.updateCart(requestData);
 
@@ -94,7 +94,7 @@ Page({
     for (let i = 0; i < goods.length; i++) {
       // console.log(goods[i].count);
       // console.log(goods[i].price);
-      count += goods[i].cart.count * goods[i].goods.price;
+      count += goods[i].cart.productCount * goods[i].product.price;
     }
     //console.log(count);
     this.setData({
@@ -382,6 +382,7 @@ Page({
         that.setData({
           goodsList: res.data.data
         })
+        that.sumMoney();
       },
       fail: function(res) {
         console.log("search cart fail:" + JSON.stringify(res))
