@@ -1,23 +1,41 @@
 {
   "pages": [
     
+    "pages/classification/index",
+
     "pages/index/index",
     "pages/login/login",
     "pages/mine/mine",
-    "pages/shopping/shopping",
     "pages/sort/sort",
     "pages/my/index",
     "pages/pay/index",
-    "pages/goodsList/goodsList",
-    "pages/chooseAddre/chooseAddre",
-    "pages/cleanOrder/cleanOrder",
-    "pages/modifyAddre/modifyAddre",
-    "pages/newAddre/newAddre",
     "pages/logs/logs",
-    "pages/ordertotal/ordertotal",
-    "pages/goodsDetail/goodsDetail",
     "pages/paycomplete/paycomplete",
-    "pages/confirm/confirm"
+    
+
+    
+    "pages/start/start",
+    
+    "pages/choiceness/index",
+    "pages/finder/index",
+    "pages/ucenter/index/index",
+    "pages/search/index",
+    "pages/goods-details/index",
+    "pages/shop-cart/index",
+    "pages/to-pay-order/index",
+    "pages/select-address/index",
+    "pages/address-add/index",
+    "pages/ucenter/order-list/index",
+    "pages/order-details/index",
+    "pages/wuliu/index",
+    "pages/ucenter/mycoupons/index",
+    "pages/notice/show",
+    "pages/recharge/index",
+    "pages/withdraw/index",
+    "pages/kanjia/index",
+    "pages/authorize/index",
+    "pages/ucenter/feedback/feedback",
+    "pages/ucenter/location/location"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -38,19 +56,25 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/sort/sort",
-        "iconPath": "./assets/icons/sort.png",
-        "selectedIconPath": "./assets/icons/sort-sel.png",
+        "pagePath": "pages/classification/index",
+        "iconPath": "images/nav/classification-off.png",
+        "selectedIconPath": "images/nav/classification-on.png",
         "text": "分类"
       },
       {
-        "pagePath": "pages/shopping/shopping",
+        "pagePath": "pages/sort/sort",
+        "iconPath": "images/nav/classification-off.png",
+        "selectedIconPath": "./assets/icons/sort-sel.png",
+        "text": "分类1"
+      },
+      {
+        "pagePath": "pages/shop-cart/index",
         "iconPath": "./assets/icons/shopping.png",
         "selectedIconPath": "./assets/icons/shopping-sel.png",
         "text": "购物车"
       },
       {
-        "pagePath": "pages/mine/mine",
+        "pagePath": "pages/ucenter/index/index",
         "iconPath": "./assets/icons/mine.png",
         "selectedIconPath": "./assets/icons/mine-sel.png",
         "text": "我的"

@@ -80,7 +80,7 @@ Page({
   continue: function() {
     //跳转到列表
     wx.navigateTo({
-      url: '../sort/sort'
+      url: '../ordertotal/ordertotal'
 
     })
 
@@ -88,7 +88,7 @@ Page({
   orderdetail: function() {
     //跳转到列表
     wx.navigateTo({
-      url: '../ordertotal/ordertotal'
+      url: '../orderDetail/orderDetail'
 
     })
   }
