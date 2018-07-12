@@ -442,6 +442,7 @@ Page({
         }
       }
     })
+    
   },
   getKanjiaInfo: function (gid) {
     var that = this;

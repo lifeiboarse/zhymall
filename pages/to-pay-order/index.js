@@ -11,7 +11,7 @@ Page({
     allGoodsAndYunPrice: 0,
     goodsJsonStr: "",
     orderType: "", //订单类型，购物车下单或立即支付下单，默认是购物车，
-
+    curAddressData:null,
     hasNoCoupons: true,
     coupons: [],
     youhuijine: 0, //优惠券金额
@@ -95,6 +95,7 @@ Page({
       if (that.data.curAddressData.districtId) {
         postData.districtId = that.data.curAddressData.districtId;
       }
+      postData.id = that.data.curAddressData.id,
       postData.address = that.data.curAddressData.address;
       postData.linkMan = that.data.curAddressData.linkMan;
       postData.mobile = that.data.curAddressData.mobile;
@@ -132,7 +133,7 @@ Page({
         }
         if (!e) {
           that.setData({
-            isNeedLogistics: res.data.data.isNeedLogistics,
+            isNeedLogistics:1, //res.data.data.isNeedLogistics,
             allGoodsPrice: res.data.data.amountTotle,
             allGoodsAndYunPrice: res.data.data.amountLogistics + res.data.data.amountTotle,
             yunPrice: res.data.data.amountLogistics
@@ -218,7 +219,7 @@ Page({
       isNeedLogistics: isNeedLogistics,
       goodsJsonStr: goodsJsonStr
     });
-    //that.createOrder();
+    that.createOrder();
   },
   addAddress: function () {
     wx.navigateTo({
@@ -233,7 +234,7 @@ Page({
   getMyCoupons: function () {
     var that = this;
     wx.request({
-      url: 'https://api.it120.cc/' + app.globalData.subDomain + '/discounts/my',
+      url:  app.globalData.domain + '/discounts/my',
       data: {
         token: wx.getStorageSync('token'),
         status: 0

@@ -24,7 +24,7 @@ function formatNumber(n) {
 
 
 /**
- * Ìð¹û¹ûÎ¢ÐÅµÄµÄrequest
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Î¢ï¿½ÅµÄµï¿½request
  */
 function request(url, data = {}, method = "GET") {
   return new Promise(function (resolve, reject) {
@@ -42,17 +42,17 @@ function request(url, data = {}, method = "GET") {
         if (res.statusCode == 200) {
 
           if (res.data.errno == 401) {
-            //ÐèÒªµÇÂ¼ºó²Å¿ÉÒÔ²Ù×÷
+            //ï¿½ï¿½Òªï¿½ï¿½Â¼ï¿½ï¿½Å¿ï¿½ï¿½Ô²ï¿½ï¿½ï¿½
 
             let code = null;
             return login().then((res) => {
               code = res.code;
               return getUserInfo();
             }).then((userInfo) => {
-              //µÇÂ¼Ô¶³Ì·þÎñÆ÷
+              //ï¿½ï¿½Â¼Ô¶ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½
               request(api.AuthLoginByWeixin, { code: code, userInfo: userInfo }, 'POST').then(res => {
                 if (res.errno === 0) {
-                  //´æ´¢ÓÃ»§ÐÅÏ¢
+                  //ï¿½æ´¢ï¿½Ã»ï¿½ï¿½ï¿½Ï¢
                   wx.setStorageSync('userInfo', res.data.userInfo);
                   wx.setStorageSync('token', res.data.token);
                   
@@ -83,7 +83,7 @@ function request(url, data = {}, method = "GET") {
 }
 
 /**
- * ¼ì²éÎ¢ÐÅ»á»°ÊÇ·ñ¹ýÆÚ
+ * ï¿½ï¿½ï¿½Î¢ï¿½Å»á»°ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
  */
 function checkSession() {
   return new Promise(function (resolve, reject) {
@@ -99,14 +99,14 @@ function checkSession() {
 }
 
 /**
- * µ÷ÓÃÎ¢ÐÅµÇÂ¼
+ * ï¿½ï¿½ï¿½ï¿½Î¢ï¿½Åµï¿½Â¼
  */
 function login() {
   return new Promise(function (resolve, reject) {
     wx.login({
       success: function (res) {
         if (res.code) {
-          //µÇÂ¼Ô¶³Ì·þÎñÆ÷
+          //ï¿½ï¿½Â¼Ô¶ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½
           resolve(res);
         } else {
           reject(res);
@@ -135,7 +135,7 @@ function getUserInfo() {
 
 function redirect(url) {
 
-  //ÅÐ¶ÏÒ³ÃæÊÇ·ñÐèÒªµÇÂ¼
+  //ï¿½Ð¶ï¿½Ò³ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Òªï¿½ï¿½Â¼
   if (false) {
     wx.redirectTo({
       url: '/pages/auth/login/login'
@@ -156,12 +156,12 @@ function showErrorToast(msg) {
 }
 
 module.exports = {
-  formatTime: formatTime,
-  request,
-  redirect,
-  showErrorToast,
-  checkSession,
-  login,
-  getUserInfo,
+  formatTime: formatTime
+  //request,
+  //redirect,
+  //showErrorToast,
+  //checkSession,
+  //login,
+  //getUserInfo,
 }
 

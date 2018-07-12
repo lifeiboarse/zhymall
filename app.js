@@ -39,8 +39,7 @@ App({
     })
     // 获取砍价设置
     wx.request({
-      url: 'https://api.it120.cc/godream/shop/goods/kanjia/list',
-      //url: 'http://www.binzhoushi.xyz/zhy/product/list',
+      url: that.globalData.API_URL+'/godream/shop/goods/kanjia/list',
       
       data: {},
       success: function (res) {
@@ -60,6 +59,8 @@ App({
         }
         that.globalData.categories = categories
         that.getGoods(0);//获取全品类商品
+
+        
       },
       fail: function () {
         that.globalData.onLoadStatus = false
@@ -215,8 +216,9 @@ App({
 
     userInfo: null,
     domain: "http://www.binzhoushi.xyz/zhy",// 域名
+    API_URL: "http://www.binzhoushi.xyz/zhy",// 域名
     subDomain: "godream",// 商城后台个性域名tgg
-    version: "2.0.5",
+    version: "1.0.1",
     shareProfile: '   一流的服务，做超新鲜的水果' // 首页转发的时候术语
   }
   // 根据自己需要修改下单时候的模板消息内容设置，可增加关闭订单、收货时候模板消息提醒

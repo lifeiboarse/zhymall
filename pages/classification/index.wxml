@@ -1,6 +1,7 @@
 
 <view class="container">
   <view class="header">
+    <!--
     <view class='shop-Info'>
       <image class="logo" src="{{shopLogo}}" />
       <view class='shop-words'>
@@ -9,10 +10,12 @@
           <wxc-elip line='2'> {{shopDelivery}} </wxc-elip>
         </view>
       </view>
+     
       <view class='clock'>
         <canvas canvas-id="myCanvas" class="canvas"></canvas>
       </view>
     </view>
+     -->
     <view class="line"></view>
     <view class='marquee'>
       <view style='width:90%'>
@@ -51,7 +54,7 @@
         </view>
         <view>
           <view class="goods" wx:for="{{goodsListCurrent.goods}}" wx:key="id" wx:for-item="item" data-id='{{item.id}}' bindtap="toDetailsTap">
-            <image class="pic" src="{{item.pic}}">
+            <image class="pic" src="{{item.image}}">
               <image class='fresh-tag' src="/images/goodsDescription/fresh.png"></image>
             </image>
             <view class="name ellipsis">{{item.name}}</view>

@@ -1,6 +1,6 @@
 //index.js
 //获取应用实例
-const app = getApp()
+var app = getApp()
 const imgUrl ="http://www.binzhoushi.xyz/wx";
 Page({
   // activeIndex 是当前播放图片的下标
@@ -9,6 +9,7 @@ Page({
     scrollXList: [], // 滚动的商品列表
     goodsSorts: [], // 商品的十种分类   用于获取商品分类信息，显示在页面上
     //2018.6.18
+    httpURL: "",
     goodclassify: ["生鲜果蔬", "粮油干货", "地方特产", "名茶名酒", "进口食品"],
     goodclassifyimg: [
       imgUrl+"/image/dining-table-header.jpg",
@@ -20,111 +21,132 @@ Page({
     friut: [{
         "name": "菜心 2kg",
         "pic": imgUrl +"/image/dining-1.jpg",
-        "price": "￥8.9"
+        "price": "￥8.9",
+        "id":1
       },
       {
         "name": "羊肉卷",
         "pic": imgUrl +"/image/dining-18.jpg",
-        "price": "￥21.98"
+        "price": "￥21.98",
+        "id": 2
       },
       {
         "name": "安迪山苹果",
         "pic": imgUrl +"/image/dining-3.jpg",
-        "price": "￥8.9"
+        "price": "￥8.9",
+        "id": 3
       }
     ],
     grain: [{
         "name": "有机石板米",
         "pic": imgUrl +"/image/grain-1.jpg",
-        "price": "￥188.0"
+        "price": "￥188.0",
+        "id": 1
       },
       {
         "name": "长寿花金胚玉米油",
         "pic": imgUrl +"/image/grain-16.jpg",
-        "price": "￥208.0"
+        "price": "￥208.0",
+        "id": 1
       },
       {
         "name": "龙稻稻花香大米",
         "pic": imgUrl +"/image/grain-23.jpg",
-        "price": "￥96.0"
+        "price": "￥96.0",
+        "id": 1
       }
     ],
     local: [{
         "name": "振豫臻品腐竹",
         "pic": imgUrl +"/image/local-1.jpg",
-        "price": "￥82.0"
+        "price": "￥82.0",
+        "id": 1
       },
       {
         "name": "原味丹堤腰果",
         "pic": imgUrl +"/image/local-2.jpg",
-        "price": "￥398.0"
+        "price": "￥398.0",
+        "id": 1
       },
       {
         "name": "精选陕北红枣",
         "pic": imgUrl +"/image/local-3.jpg",
-        "price": "￥83.0"
+        "price": "￥83.0",
+        "id": 1
       }
     ],
     teawine: [{
         "name": "韩国清河清酒",
         "pic": imgUrl +"/image/tea-2.jpg",
-        "price": "￥82.0"
+        "price": "￥82.0",
+        "id": 1
       },
       {
         "name": "特级明前茶",
         "pic": imgUrl +"/image/tea-3.jpg",
-        "price": "￥398.0"
+        "price": "￥398.0",
+        "id": 1
       },
       {
         "name": "欢沁桃红葡萄酒",
         "pic": imgUrl +"/image/tea-4.jpg",
-        "price": "￥83.0"
+        "price": "￥83.0",
+        "id": 1
       },
       {
         "name": "普洱迷你小沱茶",
         "pic": imgUrl +"/image/tea-5.jpg",
-        "price": "￥82.0"
+        "price": "￥82.0",
+        "id": 1
       },
       {
         "name": "忆江南龙井",
         "pic": imgUrl +"/image/tea-6.jpg",
-        "price": "￥82.0"
+        "price": "￥82.0",
+        "id": 1
       },
       {
         "name": "欢沁桃红葡萄酒",
         "pic": imgUrl +"/image/tea-7.jpg",
-        "price": "￥82.0"
+        "price": "￥82.0",
+        "id": 1
       }
     ],
     imported: [{
         "name": "泰国金枕头榴莲",
         "pic": imgUrl +"/image/imported-1.jpg",
-        "price": "￥82.0"
+        "price": "￥82.0",
+        "id": 1
       },
       {
         "name": "爱伦蒂全脂纯牛奶",
         "pic": imgUrl +"/image/imported-2.jpg",
-        "price": "￥398.0"
+        "price": "￥398.0",
+        "id": 1
       },
       {
         "name": "澳洲混合桉树蜂蜜",
         "pic": imgUrl +"/image/imported-3.jpg",
-        "price": "￥83.0"
+        "price": "￥83.0",
+        "id": 1
       },
       {
         "name": "马来西亚白咖啡",
         "pic": imgUrl +"/image/imported-4.jpg",
-        "price": "￥82.0"
+        "price": "￥82.0",
+        "id": 1
       },
       {
         "name": "越南白心火龙果 ",
         "pic": imgUrl +"/image/imported-6.jpg",
-        "price": "￥82.0"
+        "price": "￥82.0",
+        "id": 1
       },
       {
         "name": "西班牙特级橄榄油",
         "pic": imgUrl +"/image/imported-39.jpg",
-        "price": "￥82.0"
+        "price": "￥82.0",
+        "id": 1
       }
     ]
   },
@@ -159,8 +181,19 @@ Page({
     // 将用户点击的分类保存在全局变量中，用于页面跳转后的商品显示
     app.globalData.goodsSortsChoice = e.currentTarget.id;
     // console.log(app.globalData.goodsSortsChoice);
+    /** 
     wx.navigateTo({
       url: "../goodsList/goodsList"
+    })
+    */
+    wx.navigateTo({
+      url: "/pages/classification/index"
+    });
+  },
+  //事件处理函数
+  toDetailsTap: function (e) {
+    wx.navigateTo({
+      url: "/pages/goods-details/index?id=" + e.currentTarget.dataset.id
     })
   },
 
@@ -259,18 +292,35 @@ Page({
         // console.log(res.data.data.goods);
       }
     })
+    /** 
     wx.request({
-      url: "https://www.easy-mock.com/mock/5a223b51707056548f086d8b/hema/index_goodsSort",
+      url: app.globalData.domain +'/category/all',
       success: (res) => {
         console.log(res.data.data);
         this.setData({
-          goodsSorts: res.data.data.sorts
+          goodsSorts: res.data.data
         })
       }
     })
+    */
+   
+    var goodsSortsTmp = [];
+    if (app.globalData.categories!=null&&app.globalData.categories.length>0){
+      for (var i = 0; i < app.globalData.categories.length;i++){
+          if (app.globalData.categories[i].ifShow==1){
+            goodsSortsTmp.push(app.globalData.categories[i]);
+          }
+      }
+    }
+
+    this.setData({
+      goodsSorts: goodsSortsTmp
+    })
+    
     //初始化商品列表
     //this.searchProductList();
   },
+
   getUserInfo: function(e) {
 
   },

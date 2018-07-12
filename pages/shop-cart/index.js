@@ -49,7 +49,7 @@ Page({
     this.setGoodsList(this.getSaveHide(), this.totalPrice(), this.allSelect(), this.noSelect(), shopList);
   },
   toIndexPage: function () {
-    wx.switchTab({
+    wx.navigateTo({
       url: "/pages/classification/index"
     });
   },
@@ -334,7 +334,7 @@ Page({
           })
         } else {
           wx.request({
-            url: 'https://api.it120.cc/' + app.globalData.subDomain + '/shop/goods/price',
+            url:  app.globalData.domain + '/shop/goods/price',
             data: {
               goodsId: carShopBean.goodsId,
               propertyChildIds: carShopBean.propertyChildIds
@@ -485,7 +485,7 @@ Page({
   navigateToPayOrder: function () {
     wx.hideLoading();
     wx.navigateTo({
-      url: "/pages/to-pay-order/index"
+      url: "/pages/to-pay-order/index?orderType=buyCart"
     })
   },
   getDeliveryPrice:function() {

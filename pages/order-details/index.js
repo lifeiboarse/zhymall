@@ -159,9 +159,7 @@ Page({
       header: {
         'content-type': 'application/json'
       },
-      data: {
-        postJsonString: postJsonString
-      },
+      data: postJsonString,
       success: (res) => {
         wx.hideLoading();
         if (res.data.code == 0) {

@@ -46,11 +46,11 @@
 
     <ul class="page__bd__sorts center">
       <block wx:for="{{goodsSorts}}" wx:key="index" wx:for-index="index">
-        <li class="page__bd__sort left" id="{{index}}" bindtap="linkToList">
+        <li class="page__bd__sort left" id="{{item.id}}" bindtap="linkToList">
           <view class="page__sort__image {{item.style}}">
-            <image src="{{item.imgSrc}}" />
+            <image src="{{item.icon}}" />
           </view>
-          <p>{{item.text}}</p>
+          <p>{{item.name}}</p>
         </li>
       </block>
     </ul>
@@ -110,7 +110,7 @@
   <view class="goods">
     <view class="gooditem" wx:for="{{friut}}">
       <view class="goodview">
-        <image class="goodimg" src="{{item.pic}}"></image>
+        <image class="goodimg" src="{{item.pic}}" bindtap="toDetailsTap" data-id="{{item.id}}"></image>
       </view>
       <view class="goodprice">{{item.price}}</view>
       <view class="goodtext">{{item.name}}</view>
@@ -126,7 +126,7 @@
   <view class="goods">
     <view class="gooditem" wx:for="{{grain}}">
       <view class="goodview">
-        <image class="goodimg" src="{{item.pic}}"></image>
+        <image class="goodimg" src="{{item.pic}}" bindtap="toDetailsTap" data-id="{{item.id}}"></image>
       </view>
       <view class="goodprice">{{item.price}}</view>
       <view class="goodtext">{{item.name}}</view>
@@ -142,7 +142,7 @@
   <view class="goods">
     <view class="gooditem" wx:for="{{local}}">
       <view class="goodview">
-        <image class="goodimg" src="{{item.pic}}"></image>
+        <image class="goodimg" src="{{item.pic}}" bindtap="toDetailsTap" data-id="{{item.id}}"></image>
       </view>
       <view class="goodprice">{{item.price}}</view>
       <view class="goodtext">{{item.name}}</view>
@@ -158,7 +158,7 @@
   <view class="goods">
     <view class="gooditem" wx:for="{{teawine}}">
       <view class="goodview">
-        <image class="goodimg" src="{{item.pic}}"></image>
+        <image class="goodimg" src="{{item.pic}}" bindtap="toDetailsTap" data-id="{{item.id}}"></image>
       </view>
       <view class="goodprice">{{item.price}}</view>
       <view class="goodtext">{{item.name}}</view>
@@ -174,7 +174,7 @@
   <view class="goods">
     <view class="gooditem" wx:for="{{imported}}">
       <view class="goodview">
-        <image class="goodimg" src="{{item.pic}}"></image>
+        <image class="goodimg" src="{{item.pic}}" bindtap="toDetailsTap" data-id="{{item.id}}"></image>
       </view>
       <view class="goodprice">{{item.price}}</view>
       <view class="goodtext">{{item.name}}</view>

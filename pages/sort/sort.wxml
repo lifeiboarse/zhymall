@@ -13,11 +13,11 @@
         </view>
         <ul class="sort__bd__ul">
             <block wx:for="{{sortItems}}" wx:key="index" wx:for-index="index">
-                <li class="sort__bd__li" id="{{index}}" bindtap="linkToList">
+                <li class="sort__bd__li" id="{{item.id}}" bindtap="linkToList">
                     <view class="sort__li__image">
                         <image src="{{item.imageSrc}}" />
                     </view>
-                    <p>{{item.text}}</p>
+                    <p>{{item.name}}</p>
                 </li>
             </block>
         </ul>

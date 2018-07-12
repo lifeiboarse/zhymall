@@ -13,9 +13,10 @@ Page({
     console.log(e.currentTarget.id);
     // 将用户点击的分类保存在全局变量中，用于页面跳转后的商品显示
     app.globalData.goodsSortsChoice = e.currentTarget.id;
+    
     wx.navigateTo({
-      url: "../goodsList/goodsList"
-    })
+      url: "/pages/classification/index"
+    });
   },
 
   /**
@@ -27,10 +28,14 @@ Page({
       success: (res) => {
         console.log(res.data.data);
         this.setData({
-          sortItems: res.data.data.sorts
+          //sortItems: res.data.data.sorts
         })
       }
     })
+    this.setData({
+      sortItems: app.globalData.categories
+    })
+
   },
 
   /**
